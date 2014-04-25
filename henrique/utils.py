@@ -14,10 +14,11 @@ class UiFactory(object):
     henrique.event.MainWindowEventManager)
     """
 
-    def __init__(self, events_module="henrique.event_manager",
+    def __init__(self, app, events_module="henrique.event_manager",
             ui_module="henrique.ui"):
         self.events_module = events_module
         self.ui_module = ui_module
+        self.app = app
 
         importlib.import_module(self.events_module)
 
@@ -34,7 +35,7 @@ class UiFactory(object):
         event_module = importlib.import_module(self.events_module)
         event_classname = "%sEventManager" % (ui,)
         event_class = getattr(event_module, event_classname)
-        event_instance = event_class(ui_instance)
+        event_instance = event_class(ui_instance, self.app)
 
         self.event_instance = event_instance
 

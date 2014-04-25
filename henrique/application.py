@@ -14,7 +14,7 @@ class Henrique(object):
 
     def __init__(self, argv):
         self.argv = argv
-        self.uifactory = UiFactory()
+        self.uifactory = UiFactory(self)
         self.setupEnvironment()
 
     def setupEnvironment(self):

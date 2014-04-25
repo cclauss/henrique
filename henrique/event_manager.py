@@ -3,8 +3,9 @@
 import controller
 
 class EventManager(object):
-    def __init__(self, ui):
+    def __init__(self, ui, app):
         self.ui = ui
+        self.app = app
         self.bind()
 
     def bind(self):
@@ -13,7 +14,7 @@ class EventManager(object):
 
 class HenriqueEventManager(EventManager):
 
-    def __init__(self, ui):
+    def __init__(self, ui, app):
         super(HenriqueEventManager, self).__init__(ui)
         self.controller = controller.MainWindowController(self)
 
