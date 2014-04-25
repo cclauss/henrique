@@ -5,7 +5,7 @@ import os
 import shutil
 import getopt
 from PyQt4 import QtCore, QtGui
-from controller import MainWindowController
+from controllers import MainWindowController
 
 DATABASE = 'henrique.db'
 
