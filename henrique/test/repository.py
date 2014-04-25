@@ -4,6 +4,7 @@ import unittest
 import os
 import shutil
 import sqlite3
+import datetime
 
 from henrique.repository import Repository, ReportRepository
 from henrique.application import Henrique
@@ -37,6 +38,7 @@ class ReportRepositoryTest(RepositoryTest):
     def setUp(self):
         super(ReportRepositoryTest, self).setUp()
         self.seed()
+        self.repository = ReportRepository(self.AppMock())
 
     def seed(self):
         conn = self.repository.connection
@@ -56,5 +58,13 @@ class ReportRepositoryTest(RepositoryTest):
 
         conn.commit()
 
-    def test_something(self):
-        self.assertTrue(True)
+    def test_find_by_date(self):
+        date = datetime.timedelta(days=-1)
+        reports = self.repository.findByDate(date)
+
+        self.assertEquals(1, len(reports))
+
+        report = reports[0]
+        self.assertEquals(date == datetime.date(report.date))
+        self.assertEquals("Report for -1 days", report.content)
+        self.assertEquals(ReportRepository.STATUS_SENT, report.status)
