@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Henrique</string>
   </property>
   <widget class="QWidget" name="CentralWidget">
    <widget class="QWidget" name="MainWidget" native="true">
@@ -112,7 +112,7 @@
             <number>1</number>
            </property>
            <item>
-            <widget class="QCalendarWidget" name="CalendarWidget_2"/>
+            <widget class="QCalendarWidget" name="ReportCalendarWidget"/>
            </item>
            <item>
             <spacer name="CalendarToButtonSpacer">
