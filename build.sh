@@ -1,7 +1,7 @@
 #!/bin/bash
 
-UISOURCEDIR=./ui
-UIBUILDDIR=./henrique/ui
+UISOURCEDIR=./qtdesigner
+UIBUILDDIR=./henrique/qtdesigner
 UICOMPILER=pyuic4
 
 function compileui {
