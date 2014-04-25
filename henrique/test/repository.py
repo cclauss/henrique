@@ -91,3 +91,11 @@ class ReportRepositoryTest(RepositoryTest):
 
         with self.assertRaises(sqlite3.IntegrityError):
             self.repository.create(date=report_date)
+
+
+    def test_create_with_date(self):
+        report_date = datetime.date.today()
+        self.repository.create(date=report_date)
+
+        reports = self.repository.findByDate(report_date)
+        self.assertEquals(1, len(reports))
