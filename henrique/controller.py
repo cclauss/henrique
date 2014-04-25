@@ -3,6 +3,7 @@
 import repository
 import datetime
 import ui
+import helpers
 
 class Controller(object):
 
@@ -11,6 +12,7 @@ class Controller(object):
 
     def showUi(self):
         self.ui.setupUi(self.app.main_window)
+        self.ui.bindEvents()
 
         if not self.app.main_window.isVisible():
             self.app.main_window.show()
@@ -24,6 +26,8 @@ class MainWindowController(Controller):
         super(MainWindowController, self).__init__(app)
         self.ui = ui.MainWindow(self)
         self.report_repository = repository.ReportRepository(self.app)
+
+        self.showUi()
         self.onReportDateChange()
 
     def onReportDateChange(self):
@@ -37,5 +41,5 @@ class MainWindowController(Controller):
 
         report = report[0]
         self.report = report
-        helper = utils.MainWindowHelper(self.ui, self.report)
+        helper = helpers.MainWindowHelper(self.ui, self.report)
         helper.refreshUi()
