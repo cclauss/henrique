@@ -42,6 +42,7 @@ class ReportRepository(Repository):
 
     def create(self, date=None, content='', status=0):
         create_date = datetime.datetime.now().strftime(self.DATETIME_FORMAT)
+        date = date if isinstance(date, datetime.datetime) else datetime.datetime.combine(date, datetime.datetime.min.time())
 
         query = "INSERT INTO report(date, create_date, update_date, content, status) VALUES (?, ?, ?, ?, ?)"
         self.connection.execute(query, (date, create_date, create_date, content, status,))
