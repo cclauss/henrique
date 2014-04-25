@@ -9,7 +9,7 @@ class EventManager(object):
         raise NotImplementedError("The EventManager must implement the 'bind' method")
 
 
-class MainWindowEventManager(EventManager):
+class HenriqueEventManager(EventManager):
 
     def bind(self):
         print "Binding!"

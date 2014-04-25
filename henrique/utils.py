@@ -14,7 +14,7 @@ class UiFactory(object):
     henrique.event.MainWindowEventManager)
     """
 
-    def __init__(self, events_module="henrique.events",
+    def __init__(self, events_module="henrique.event_manager",
             ui_module="henrique.ui"):
         self.events_module = events_module
         self.ui_module = ui_module
