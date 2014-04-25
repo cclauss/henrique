@@ -2,6 +2,7 @@
 
 import repository
 import datetime
+import utils
 
 class Controller(object):
 
@@ -32,15 +33,11 @@ class MainWindowController(Controller):
         calendar_date = calendar.selectedDate().toPyDate()
         report = self.report_repository.findByDate(calendar_date)
 
-        if not report:
+        if len(report) == 0:
             self.report_repository.create(date=calendar_date)
             report = self.report_repository.findByDate(calendar_date)
 
+        report = report[0]
         self.report = report
-        self.refreshUi()
-
-    def refreshUi(self):
-        if not getattr(self, 'report'):
-            raise RuntimeError('Cannot refresh the MainWindow UI if there\'s no report loaded')
-
-        print self.report
+        helper = utils.MainWindowHelper(self.ui, self.report)
+        helper.refreshUi()
