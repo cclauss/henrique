@@ -36,6 +36,8 @@ class Henrique(object):
             sourcefile = os.path.realpath(os.path.join(currentpath, '..', 'db', DATABASE))
             shutil.copy2(sourcefile, dbfile)
 
+        self.dbfile = dbfile
+
     def makeHomeDirectory(self):
         self.home = self.home if hasattr(self, 'home') else os.path.expanduser('~/.henrique')
 
