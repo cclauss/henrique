@@ -6,8 +6,11 @@ import henrique.utils
 
 class UiFactoryTest(unittest.TestCase):
 
+    class AppMock(object):
+        pass
+
     def setUp(self):
-        self.uifactory = henrique.utils.UiFactory(events_module="henrique.test.mock.event",
+        self.uifactory = henrique.utils.UiFactory(self.AppMock(), events_module="henrique.test.mock.event",
                 ui_module="henrique.test.mock.ui")
 
     def test_modules(self):
