@@ -68,3 +68,17 @@ class ReportRepositoryTest(RepositoryTest):
         self.assertEquals(date.isoformat(), report['date'])
         self.assertEquals("Report for -1 days", report['content'])
         self.assertEquals(ReportRepository.STATUS_NOT_SENT, report['status'])
+
+    def test_create(self):
+        report_date = datetime.datetime.strptime('2011-10-10 23:59:34', '%Y-%m-%d %H:%M:%S')
+        create_date = datetime.datetime.strptime('2011-10-23 22:33:44', '%Y-%m-%d %H:%M:%S')
+        status = ReportRepository.STATUS_SENT
+        self.repository.create(date=report_date, create_date=create_date, status=status)
+
+        reports = self.repository.findByDate(report_date)
+        self.assertEquals(1, len(reports))
+
+        report = reports[0]
+        self.assertEquals('2011-10-10 23:59:34', report['date'])
+        self.assertEquals('2011-10-23 22:33:44', report['create_date'])
+        self.assertEquals(ReportRepository.STATUS_SENT, report['status'])
