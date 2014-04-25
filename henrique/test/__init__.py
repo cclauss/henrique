@@ -9,7 +9,6 @@ class TestSuite(object):
 
     def __init__(self):
         self.suite = unittest.TestSuite()
-        self.suite.addTest(unittest.findTestCases(utils))
         self.suite.addTest(unittest.findTestCases(application))
         self.suite.addTest(unittest.findTestCases(repository))
 
