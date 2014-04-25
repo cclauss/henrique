@@ -59,12 +59,12 @@ class ReportRepositoryTest(RepositoryTest):
         conn.commit()
 
     def test_find_by_date(self):
-        date = datetime.timedelta(days=-1)
+        date = datetime.date.today() + datetime.timedelta(days=-1)
         reports = self.repository.findByDate(date)
 
         self.assertEquals(1, len(reports))
 
         report = reports[0]
-        self.assertEquals(date == datetime.date(report.date))
-        self.assertEquals("Report for -1 days", report.content)
-        self.assertEquals(ReportRepository.STATUS_SENT, report.status)
+        self.assertEquals(date.isoformat(), report['date'])
+        self.assertEquals("Report for -1 days", report['content'])
+        self.assertEquals(ReportRepository.STATUS_NOT_SENT, report['status'])
