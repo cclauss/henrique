@@ -3,7 +3,7 @@
 
 if __name__ == "__main__":
     import sys
-    from henrique import Henrique
+    from henrique.application import Henrique
 
     app = Henrique(sys.argv)
     app.start()
