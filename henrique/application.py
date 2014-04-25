@@ -5,8 +5,7 @@ import os
 import shutil
 import getopt
 from PyQt4 import QtCore, QtGui
-from utils import UiFactory
-from ui.henrique import Ui_Henrique
+from controller import MainWindowController
 
 DATABASE = 'henrique.db'
 
@@ -14,7 +13,6 @@ class Henrique(object):
 
     def __init__(self, argv):
         self.argv = argv
-        self.uifactory = UiFactory(self)
         self.setupEnvironment()
 
     def setupEnvironment(self):
@@ -48,5 +46,5 @@ class Henrique(object):
         app = QtGui.QApplication(self.argv)
         main_window = QtGui.QMainWindow()
         self.main_window = main_window
-        ui_event = self.uifactory.make("Henrique")
+        controller = MainWindowController(self)
         sys.exit(app.exec_())

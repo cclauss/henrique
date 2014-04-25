@@ -2,15 +2,12 @@
 
 import repository
 import datetime
-import utils
+import ui
 
 class Controller(object):
 
-    def __init__(self, event_manager):
-        self.event_manager = event_manager
-        self.ui = event_manager.ui
-        self.app = event_manager.app
-        self.showUi()
+    def __init__(self, app):
+        self.app = app
 
     def showUi(self):
         self.ui.setupUi(self.app.main_window)
@@ -23,8 +20,9 @@ class Controller(object):
 
 class MainWindowController(Controller):
 
-    def __init__(self, event_manager):
-        super(MainWindowController, self).__init__(event_manager)
+    def __init__(self, app):
+        super(MainWindowController, self).__init__(app)
+        self.ui = ui.MainWindow(self)
         self.report_repository = repository.ReportRepository(self.app)
         self.onReportDateChange()
 
