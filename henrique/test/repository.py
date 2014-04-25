@@ -47,7 +47,12 @@ class ReportRepositoryTest(RepositoryTest):
             query = """INSERT INTO
                             report(date, create_date, update_date, content, status)
                         VALUES
-                            (date('now', '{0}'), date('now', '{1}'), date('now', '{2}'), 'Report for -{3} days', {4})
+                        (
+                            strftime('%Y-%m-%d %H:%M:%S', 'now', '{0}', 'localtime'),
+                            strftime('%Y-%m-%d %H:%M:%S', 'now', '{1}', 'localtime'),
+                            strftime('%Y-%m-%d %H:%M:%S', 'now', '{2}', 'localtime'),
+                            'Report for -{3} days', {4}
+                        )
                     """
             params = ["-%d days" % i] * 3
             params.append(i)
@@ -59,26 +64,30 @@ class ReportRepositoryTest(RepositoryTest):
         conn.commit()
 
     def test_find_by_date(self):
-        date = datetime.date.today() + datetime.timedelta(days=-1)
+        date = datetime.datetime.now() + datetime.timedelta(days=-1)
+
         reports = self.repository.findByDate(date)
-
-        self.assertEquals(1, len(reports))
-
         report = reports[0]
-        self.assertEquals(date.isoformat(), report['date'])
+
+        self.assertEquals(date.strftime('%Y-%m-%d %H:%M:%S'), report['date'].strftime('%Y-%m-%d %H:%M:%S'))
         self.assertEquals("Report for -1 days", report['content'])
         self.assertEquals(ReportRepository.STATUS_NOT_SENT, report['status'])
 
     def test_create(self):
         report_date = datetime.datetime.strptime('2011-10-10 23:59:34', '%Y-%m-%d %H:%M:%S')
-        create_date = datetime.datetime.strptime('2011-10-23 22:33:44', '%Y-%m-%d %H:%M:%S')
         status = ReportRepository.STATUS_SENT
-        self.repository.create(date=report_date, create_date=create_date, status=status)
+        self.repository.create(date=report_date, status=status)
 
         reports = self.repository.findByDate(report_date)
-        self.assertEquals(1, len(reports))
-
         report = reports[0]
-        self.assertEquals('2011-10-10 23:59:34', report['date'])
-        self.assertEquals('2011-10-23 22:33:44', report['create_date'])
+
+        self.assertEquals(report_date, report['date'])
         self.assertEquals(ReportRepository.STATUS_SENT, report['status'])
+
+
+    def test_create_duplicated_date(self):
+        report_date = datetime.datetime.strptime('2011-10-10 23:59:34', '%Y-%m-%d %H:%M:%S')
+        self.repository.create(date=report_date)
+
+        with self.assertRaises(sqlite3.IntegrityError):
+            self.repository.create(date=report_date)
