@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import controller
+
 class EventManager(object):
     def __init__(self, ui):
         self.ui = ui
@@ -11,5 +13,9 @@ class EventManager(object):
 
 class HenriqueEventManager(EventManager):
 
+    def __init__(self, ui):
+        super(HenriqueEventManager, self).__init__(ui)
+        self.controller = controller.MainWindowController(self)
+
     def bind(self):
-        print "Binding!"
+        pass
