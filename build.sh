@@ -10,6 +10,12 @@ function compileui {
         mkdir -p $UIBUILDDIR
     fi
 
+    if [ ! -f "$UIBUILDDIR/__init__.py" ]; then
+        echo "touch $UIBUILDDIR/__init__.py"
+        touch "$UIBUILDDIR/__init__.py"
+    fi
+        
+
     for file in $UISOURCEDIR/*; do
         local destfile=$(basename $file)
         destfile=${destfile/.ui/.py}
