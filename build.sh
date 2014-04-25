@@ -5,6 +5,11 @@ UIBUILDDIR=./henrique/ui
 UICOMPILER=pyuic4
 
 function compileui {
+    if [ ! -d "$UIBUILDDIR" ]; then
+        echo "mkdir -p $UIBUILDDIR"
+        mkdir -p $UIBUILDDIR
+    fi
+
     for file in $UISOURCEDIR/*; do
         local destfile=$(basename $file)
         destfile=${destfile/.ui/.py}
