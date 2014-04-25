@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
 
 class MainWindowEventManager(object):
-    pass
+
+    def __init__(self, ui):
+        self.ui = ui

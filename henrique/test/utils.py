@@ -20,5 +20,6 @@ class UiFactoryTest(unittest.TestCase):
         self.assertIsInstance(event_manager.ui, henrique.test.mock.ui.mainwindow.Ui_MainWindow)
 
     def test_make_invalid_class(self):
-        self.assertRaises(exceptions.ImportError, self.uifactory.make('UnexistentWindow'))
+        with self.assertRaises(ImportError):
+            self.uifactory.make('UnexistentWindow')
 
