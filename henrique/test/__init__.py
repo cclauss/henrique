@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-import utils
 import application
 import repository
 
