@@ -47,8 +47,6 @@ class Henrique(object):
     def start(self):
         app = QtGui.QApplication(self.argv)
         main_window = QtGui.QMainWindow()
+        self.main_window = main_window
         ui_event = self.uifactory.make("Henrique")
-        ui = ui_event.ui
-        ui.setupUi(main_window)
-        main_window.show()
         sys.exit(app.exec_())

@@ -15,7 +15,7 @@ class EventManager(object):
 class HenriqueEventManager(EventManager):
 
     def __init__(self, ui, app):
-        super(HenriqueEventManager, self).__init__(ui)
+        super(HenriqueEventManager, self).__init__(ui, app)
         self.controller = controller.MainWindowController(self)
 
     def bind(self):
