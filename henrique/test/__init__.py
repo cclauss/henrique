@@ -7,7 +7,7 @@ class TestSuite(object):
 
     def __init__(self):
         self.suite = unittest.TestSuite()
-        self.suite.addTest(utils.UiFactoryTest())
+        self.suite.addTest(unittest.findTestCases(utils))
 
     def run(self):
         runner = unittest.TextTestRunner()
