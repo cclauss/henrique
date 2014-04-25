@@ -2,7 +2,7 @@
 
 import sys
 from PyQt4 import QtCore, QtGui
-from henrique.ui.mainwindow import Ui_MainWindow
+from ui.mainwindow import Ui_MainWindow
 
 class Henrique(object):
 
