@@ -11,31 +11,78 @@ class Model(object):
     MAX_WRITES_PENDING = 50
 
     datetime_fields = []
+    connection = None
 
     def __init__(self, app):
-        self.connection = sqlite3.connect(app.dbfile)
-        self.connection.row_factory = self.cursorToDictionary
+        self.connect(app)
 
-    def cursorToDictionary(self, cursor, row):
+    @classmethod
+    def cursorToDictionary(cls, cursor, row):
         d = {}
 
         for idx, col in enumerate(cursor.description):
-            if col[0] in self.datetime_fields:
-                d[col[0]] = self.parseDateTime(row[idx])
+            if col[0] in cls.datetime_fields:
+                d[col[0]] = cls.parseDateTime(row[idx])
             else:
                 d[col[0]] = row[idx]
 
         return d
 
-    def parseDateTime(self, datetimestr):
-        return datetime.strptime(datetimestr, self.DATETIME_FORMAT)
+    @classmethod
+    def parseDateTime(cls, datetimestr):
+        return datetime.strptime(datetimestr, cls.DATETIME_FORMAT)
 
-    def flagWrite(self):
-        self.WRITES_PENDING += 1
+    @staticmethod
+    def connect(app):
+        if Model.connection is None:
+            Model.connection = sqlite3.connect(app.dbfile)
+            Model.connection.row_factory = Model.cursorToDictionary
 
-        if (self.WRITES_PENDING >= self.MAX_WRITES_PENDING):
-            self.connection.commit()
-            self.WRITES_PENDING = 0
+    @staticmethod
+    def flagWrite():
+        Model.WRITES_PENDING += 1
+
+        if (Model.WRITES_PENDING >= Model.MAX_WRITES_PENDING):
+            Model.connection.commit()
+            Model.WRITES_PENDING = 0
+
+class SettingsModel(Model):
+
+    TAG_SMTP = 'smtp'
+    SETTINGS_SMTP = {
+        'address': '127.0.0.1',
+        'port': '25',
+        'username': 'henrique@candyland.com',
+        'password': '123456',
+        'ssl': '0'
+    }
+
+
+    def findSMTPSettings(self):
+        cursor = self.connection.execute("SELECT * FROM setting WHERE tag=?", (self.TAG_SMTP,))
+        dbsettings = cursor.fetchall()
+        cursor.close()
+
+        settings = {}
+        validkeys = self.SETTINGS_SMTP.keys()
+
+        for setting in dbsettings:
+            if setting['name'] in validkeys:
+                settings[setting['name']] = setting['value']
+
+        finalsettings = self.SETTINGS_SMTP.copy()
+        finalsettings.update(settings)
+
+        return finalsettings
+
+    def saveSMTPSettings(self, settings):
+        self.connection.execute("DELETE FROM setting WHERE tag=?", (self.TAG_SMTP,))
+
+        finalsettings = self.SETTINGS_SMTP.copy()
+        finalsettings.update(settings)
+
+        query = "INSERT INTO setting (name, value, tag)" + (" VALUES (?, ?, ?) " * len(finalsettings))
+        print query
 
 
 class ReportModel(Model):
