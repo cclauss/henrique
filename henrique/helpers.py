@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from repository import ReportRepository
+from repositories import ReportRepository
 
 class MainWindowHelper(object):
 

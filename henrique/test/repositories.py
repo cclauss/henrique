@@ -6,7 +6,7 @@ import shutil
 import sqlite3
 import datetime
 
-from henrique.repository import Repository, ReportRepository
+from henrique.repositories import Repository, ReportRepository
 from henrique.application import Henrique
 from henrique.application import DATABASE
 

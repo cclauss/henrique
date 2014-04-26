@@ -2,14 +2,14 @@
 
 import unittest
 import application
-import repository
+import repositories
 
 class TestSuite(object):
 
     def __init__(self):
         self.suite = unittest.TestSuite()
         self.suite.addTest(unittest.findTestCases(application))
-        self.suite.addTest(unittest.findTestCases(repository))
+        self.suite.addTest(unittest.findTestCases(repositories))
 
     def run(self):
         runner = unittest.TextTestRunner()

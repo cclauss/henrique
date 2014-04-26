@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import repository
+import repositories
 import datetime
 import ui
 import helpers
@@ -25,7 +25,7 @@ class MainWindowController(Controller):
     def __init__(self, app):
         super(MainWindowController, self).__init__(app)
         self.ui = ui.MainWindow(self)
-        self.report_repository = repository.ReportRepository(self.app)
+        self.report_repository = repositories.ReportRepository(self.app)
 
         self.showUi()
         self.onReportDateChange()
