@@ -6,93 +6,189 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>407</width>
+    <height>320</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QGroupBox" name="SMTPGroupBox">
+  <widget class="QTabWidget" name="SettingsTabWidget">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>20</y>
-     <width>341</width>
-     <height>231</height>
+     <x>10</x>
+     <y>10</y>
+     <width>391</width>
+     <height>251</height>
     </rect>
    </property>
-   <property name="autoFillBackground">
-    <bool>true</bool>
+   <property name="currentIndex">
+    <number>1</number>
    </property>
-   <property name="title">
-    <string>SMTP Server</string>
+   <widget class="QWidget" name="SMTPTab">
+    <attribute name="title">
+     <string>SMTP</string>
+    </attribute>
+    <widget class="QGroupBox" name="SMTPGroupBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>340</width>
+       <height>200</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="title">
+      <string>SMTP Server</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout">
+      <property name="fieldGrowthPolicy">
+       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+      </property>
+      <property name="topMargin">
+       <number>15</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="AddressLabel">
+        <property name="text">
+         <string>Address</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="AddressLineEdit"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="PortLabel">
+        <property name="text">
+         <string>Port</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="PortLineEdit"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="UsernameLabel">
+        <property name="text">
+         <string>Username</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="UsernameLineEdit"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="PasswordLabel">
+        <property name="text">
+         <string>Password</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="PasswordLineEdit"/>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="SSLLabel">
+        <property name="text">
+         <string>SSL/TLS</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QCheckBox" name="SSLCheckBox">
+        <property name="text">
+         <string>Enabled</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="EmailTab">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <attribute name="title">
+     <string>Email</string>
+    </attribute>
+    <widget class="QGroupBox" name="EmailGroupBox_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>340</width>
+       <height>150</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Email Settings</string>
+     </property>
+     <layout class="QFormLayout" name="EmailGroupBox">
+      <property name="fieldGrowthPolicy">
+       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+      </property>
+      <property name="topMargin">
+       <number>20</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>From</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="lineEdit"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>To</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="lineEdit_2"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Subject</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="lineEdit_3"/>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>280</y>
+     <width>178</width>
+     <height>28</height>
+    </rect>
    </property>
-   <layout class="QFormLayout" name="formLayout">
-    <property name="fieldGrowthPolicy">
-     <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-    </property>
-    <property name="topMargin">
-     <number>15</number>
-    </property>
-    <item row="0" column="0">
-     <widget class="QLabel" name="AddressLabel">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QPushButton" name="pushButton_2">
       <property name="text">
-       <string>Address</string>
+       <string>Close</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="1">
-     <widget class="QLineEdit" name="AddressLineEdit"/>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="PortLabel">
+    <item>
+     <widget class="QPushButton" name="pushButton">
       <property name="text">
-       <string>Port</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QLineEdit" name="PortLineEdit"/>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="UsernameLabel">
-      <property name="text">
-       <string>Username</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QLineEdit" name="UsernameLineEdit"/>
-    </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="PasswordLabel">
-      <property name="text">
-       <string>Password</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QLineEdit" name="PasswordLineEdit"/>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="SSLLabel">
-      <property name="text">
-       <string>SSL/TLS</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="1">
-     <widget class="QDialogButtonBox" name="SettingsButtonBox">
-      <property name="standardButtons">
-       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <widget class="QCheckBox" name="SSLCheckBox">
-      <property name="text">
-       <string>Enabled</string>
+       <string>Save</string>
       </property>
      </widget>
     </item>
