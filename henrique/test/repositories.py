@@ -101,6 +101,15 @@ class ReportRepositoryTest(RepositoryTest):
         self.assertEquals(1, len(reports))
 
 
-    #def test_update(self):
-    #    report_date = date.today()
-    #    report_id = self.repository.create(date=report_date)
+    def test_update(self):
+        report_date = date.today()
+        report_id = self.repository.create(date=report_date)
+
+        report = self.repository.findById(report_id)
+        content = 'Dummy content'
+
+        self.repository.update(report_id, content=content, status=3)
+        report = self.repository.findById(report_id)
+
+        self.assertEquals(content, report['content'])
+        self.assertEquals(3, report['status'])
