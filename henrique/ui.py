@@ -33,8 +33,7 @@ class SettingsWindow(BaseUi, QtGui.QDialog):
         self.ui.PasswordLineEdit.setEchoMode(QtGui.QLineEdit.Password)
 
     def bindEvents(self):
-        self.ui.SettingsButtonBox.accepted.connect(self.controller.onSaveButtonClick)
-        self.ui.SettingsButtonBox.rejected.connect(self.controller.onCloseButtonClick)
+        pass
 
     def setUsername(self, username):
         username = QtCore.QString(username)
