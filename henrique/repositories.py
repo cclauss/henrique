@@ -40,9 +40,21 @@ class ReportRepository(Repository):
         cursor = self.connection.execute(query, (date.strftime(self.DATE_FORMAT),))
         return cursor.fetchall()
 
+    def findById(self, id):
+        cursor = self.connection.execute("SELECT * FROM report WHERE id=?", (id,))
+        return cursor.fetchone()
+
     def create(self, date=None, content='', status=0):
         create_date = datetime.now().strftime(self.DATETIME_FORMAT)
+        cursor = self.connection.cursor()
         date = date if isinstance(date, datetime) else datetime.combine(date, datetime.min.time())
 
         query = "INSERT INTO report(date, create_date, update_date, content, status) VALUES (?, ?, ?, ?, ?)"
-        self.connection.execute(query, (date, create_date, create_date, content, status,))
+        cursor.execute(query, (date, create_date, create_date, content, status,))
+
+        return cursor.lastrowid
+
+    def update(self, id, content='', status=0):
+        update_date = datetime.now().strftime(self.DATETIME_FORMAT)
+        cursor = self.connection.cursor()
+        cursor.execute("UPDATE report SET update_date=?, content=?, status=? WHERE id=?", (update_date, content, status, id,))
