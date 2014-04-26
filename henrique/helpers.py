@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from repositories import ReportRepository
+from models import ReportModel
 
 class MainWindowHelper(object):
 
@@ -9,14 +9,14 @@ class MainWindowHelper(object):
         self.report = report
 
     def refreshUi(self):
-        self.ui.TasksEditor.setText(self.report['content'])
+        self.ui.ReportText.setText(self.report['content'])
         self.updateStatus()
 
     def updateStatus(self):
         text = 'This report wasn\'t sent'
         style = 'color: red'
 
-        if self.report['status'] == ReportRepository.STATUS_SENT:
+        if self.report['status'] == ReportModel.STATUS_SENT:
             text = 'This report was already sent'
             style = 'color: green'
 

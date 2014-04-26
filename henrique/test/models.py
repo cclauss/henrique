@@ -6,20 +6,20 @@ import shutil
 import sqlite3
 
 from datetime import date, datetime, timedelta
-from henrique.repositories import Repository, ReportRepository
+from henrique.models import Model, ReportModel
 from henrique.application import Henrique
 from henrique.application import DATABASE
 
 TEST_DATABASE = '/tmp/henrique_test.db'
 
-class RepositoryTest(unittest.TestCase):
+class ModelTest(unittest.TestCase):
 
     class AppMock(object):
         dbfile = TEST_DATABASE
 
     def setUp(self):
         self.create_database()
-        self.repository = Repository(self.AppMock())
+        self.model = Model(self.AppMock())
 
     def create_database(self):
         if os.path.exists(TEST_DATABASE):
@@ -30,20 +30,20 @@ class RepositoryTest(unittest.TestCase):
         shutil.copy2(sourcefile, TEST_DATABASE)
 
     def test_database_connection(self):
-        self.assertIsInstance(self.repository.connection, sqlite3.Connection)
+        self.assertIsInstance(self.model.connection, sqlite3.Connection)
 
 
-class ReportRepositoryTest(RepositoryTest):
+class ReportModelTest(ModelTest):
 
     def setUp(self):
-        super(ReportRepositoryTest, self).setUp()
+        super(ReportModelTest, self).setUp()
         self.seed()
-        self.repository = ReportRepository(self.AppMock())
+        self.model = ReportModel(self.AppMock())
 
     def seed(self):
-        conn = self.repository.connection
+        conn = self.model.connection
         for i in range(1, 10):
-            status = ReportRepository.STATUS_SENT if (i % 2) == 0 else ReportRepository.STATUS_NOT_SENT
+            status = ReportModel.STATUS_SENT if (i % 2) == 0 else ReportModel.STATUS_NOT_SENT
             query = """INSERT INTO
                             report(date, create_date, update_date, content, status)
                         VALUES
@@ -66,50 +66,50 @@ class ReportRepositoryTest(RepositoryTest):
     def test_find_by_date(self):
         date = datetime.now() + timedelta(days=-1)
 
-        reports = self.repository.findByDate(date)
+        reports = self.model.findByDate(date)
         report = reports[0]
 
         self.assertEquals(date.strftime('%Y-%m-%d %H:%M:%S'), report['date'].strftime('%Y-%m-%d %H:%M:%S'))
         self.assertEquals("Report for -1 days", report['content'])
-        self.assertEquals(ReportRepository.STATUS_NOT_SENT, report['status'])
+        self.assertEquals(ReportModel.STATUS_NOT_SENT, report['status'])
 
     def test_create(self):
         report_date = datetime.strptime('2011-10-10 23:59:34', '%Y-%m-%d %H:%M:%S')
-        status = ReportRepository.STATUS_SENT
-        self.repository.create(date=report_date, status=status)
+        status = ReportModel.STATUS_SENT
+        self.model.create(date=report_date, status=status)
 
-        reports = self.repository.findByDate(report_date)
+        reports = self.model.findByDate(report_date)
         report = reports[0]
 
         self.assertEquals(report_date, report['date'])
-        self.assertEquals(ReportRepository.STATUS_SENT, report['status'])
+        self.assertEquals(ReportModel.STATUS_SENT, report['status'])
 
 
     def test_create_duplicated_date(self):
         report_date = datetime.strptime('2011-10-10 23:59:34', '%Y-%m-%d %H:%M:%S')
-        self.repository.create(date=report_date)
+        self.model.create(date=report_date)
 
         with self.assertRaises(sqlite3.IntegrityError):
-            self.repository.create(date=report_date)
+            self.model.create(date=report_date)
 
 
     def test_create_with_date(self):
         report_date = date.today()
-        self.repository.create(date=report_date)
+        self.model.create(date=report_date)
 
-        reports = self.repository.findByDate(report_date)
+        reports = self.model.findByDate(report_date)
         self.assertEquals(1, len(reports))
 
 
     def test_update(self):
         report_date = date.today()
-        report_id = self.repository.create(date=report_date)
+        report_id = self.model.create(date=report_date)
 
-        report = self.repository.findById(report_id)
+        report = self.model.findById(report_id)
         content = 'Dummy content'
 
-        self.repository.update(report_id, content=content, status=3)
-        report = self.repository.findById(report_id)
+        self.model.update(report_id, content=content, status=3)
+        report = self.model.findById(report_id)
 
         self.assertEquals(content, report['content'])
         self.assertEquals(3, report['status'])
