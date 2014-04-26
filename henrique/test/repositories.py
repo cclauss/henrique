@@ -4,8 +4,8 @@ import unittest
 import os
 import shutil
 import sqlite3
-import datetime
 
+from datetime import date, datetime
 from henrique.repositories import Repository, ReportRepository
 from henrique.application import Henrique
 from henrique.application import DATABASE
@@ -64,7 +64,7 @@ class ReportRepositoryTest(RepositoryTest):
         conn.commit()
 
     def test_find_by_date(self):
-        date = datetime.datetime.now() + datetime.timedelta(days=-1)
+        date = datetime.now() + datetime.timedelta(days=-1)
 
         reports = self.repository.findByDate(date)
         report = reports[0]
@@ -74,7 +74,7 @@ class ReportRepositoryTest(RepositoryTest):
         self.assertEquals(ReportRepository.STATUS_NOT_SENT, report['status'])
 
     def test_create(self):
-        report_date = datetime.datetime.strptime('2011-10-10 23:59:34', '%Y-%m-%d %H:%M:%S')
+        report_date = datetime.strptime('2011-10-10 23:59:34', '%Y-%m-%d %H:%M:%S')
         status = ReportRepository.STATUS_SENT
         self.repository.create(date=report_date, status=status)
 
@@ -86,7 +86,7 @@ class ReportRepositoryTest(RepositoryTest):
 
 
     def test_create_duplicated_date(self):
-        report_date = datetime.datetime.strptime('2011-10-10 23:59:34', '%Y-%m-%d %H:%M:%S')
+        report_date = datetime.strptime('2011-10-10 23:59:34', '%Y-%m-%d %H:%M:%S')
         self.repository.create(date=report_date)
 
         with self.assertRaises(sqlite3.IntegrityError):
@@ -94,8 +94,13 @@ class ReportRepositoryTest(RepositoryTest):
 
 
     def test_create_with_date(self):
-        report_date = datetime.date.today()
+        report_date = date.today()
         self.repository.create(date=report_date)
 
         reports = self.repository.findByDate(report_date)
         self.assertEquals(1, len(reports))
+
+
+    #def test_update(self):
+    #    report_date = date.today()
+    #    report_id = self.repository.create(date=report_date)
