@@ -171,11 +171,11 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionSettings"/>
+    <addaction name="SettingsAction"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
-  <action name="actionSettings">
+  <action name="SettingsAction">
    <property name="text">
     <string>Settings</string>
    </property>
