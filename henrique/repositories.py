@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import sqlite3
-import datetime
+from datetime import datetime, date
 
 class Repository(object):
 
@@ -26,7 +26,7 @@ class Repository(object):
         return d
 
     def parseDateTime(self, datetimestr):
-        return datetime.datetime.strptime(datetimestr, self.DATETIME_FORMAT)
+        return datetime.strptime(datetimestr, self.DATETIME_FORMAT)
 
 
 class ReportRepository(Repository):
@@ -41,9 +41,8 @@ class ReportRepository(Repository):
         return cursor.fetchall()
 
     def create(self, date=None, content='', status=0):
-        create_date = datetime.datetime.now().strftime(self.DATETIME_FORMAT)
-        date = date if isinstance(date, datetime.datetime) else datetime.datetime.combine(date, datetime.datetime.min.time())
+        create_date = datetime.now().strftime(self.DATETIME_FORMAT)
+        date = date if isinstance(date, datetime) else datetime.combine(date, datetime.min.time())
 
         query = "INSERT INTO report(date, create_date, update_date, content, status) VALUES (?, ?, ?, ?, ?)"
         self.connection.execute(query, (date, create_date, create_date, content, status,))
-        self.connection.commit()
