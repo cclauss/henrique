@@ -80,10 +80,19 @@ class SettingsModel(Model):
 
         finalsettings = self.SETTINGS_SMTP.copy()
         finalsettings.update(settings)
+        keys = finalsettings.keys()
 
-        query = "INSERT INTO setting (name, value, tag)" + (" VALUES (?, ?, ?) " * len(finalsettings))
-        print query
+        query = "INSERT INTO setting (name, value, tag) VALUES" + (" (?, ?, ?), " * len(keys))
+        query = query.rstrip(', ')
+        params = []
 
+        for key in keys:
+            params.append(key)
+            params.append(finalsettings[key])
+            params.append(self.TAG_SMTP)
+
+        self.connection.execute(query, params)
+        self.connection.commit()
 
 class ReportModel(Model):
     STATUS_SENT = 1
