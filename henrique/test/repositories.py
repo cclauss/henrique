@@ -5,7 +5,7 @@ import os
 import shutil
 import sqlite3
 
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from henrique.repositories import Repository, ReportRepository
 from henrique.application import Henrique
 from henrique.application import DATABASE
@@ -64,7 +64,7 @@ class ReportRepositoryTest(RepositoryTest):
         conn.commit()
 
     def test_find_by_date(self):
-        date = datetime.now() + datetime.timedelta(days=-1)
+        date = datetime.now() + timedelta(days=-1)
 
         reports = self.repository.findByDate(date)
         report = reports[0]
