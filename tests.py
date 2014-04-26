@@ -2,6 +2,6 @@
 # -*- coding: utf-8 -*-
 
 if __name__ == "__main__":
-    from henrique.test import TestSuite
+    from henrique.tests import TestSuite
     testsuite = TestSuite()
     testsuite.run()
