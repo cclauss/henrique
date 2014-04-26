@@ -3,7 +3,7 @@
 import sqlite3
 from datetime import datetime, date
 
-class Repository(object):
+class Model(object):
 
     DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
     DATE_FORMAT = "%Y-%m-%d"
@@ -29,7 +29,7 @@ class Repository(object):
         return datetime.strptime(datetimestr, self.DATETIME_FORMAT)
 
 
-class ReportRepository(Repository):
+class ReportModel(Model):
     STATUS_SENT = 1
     STATUS_NOT_SENT = 0
 
