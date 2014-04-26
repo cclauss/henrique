@@ -12,3 +12,7 @@ class MainWindow(Ui_Henrique, BaseUi):
 
     def bindEvents(self):
         self.ReportCalendarWidget.selectionChanged.connect(self.controller.onReportDateChange)
+        self.ReportText.textChanged.connect(self.controller.onReportTextChange)
+
+    def getReportText(self):
+        return str(self.ReportText.toPlainText())

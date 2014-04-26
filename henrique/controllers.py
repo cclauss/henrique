@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import repositories
+import models
 import datetime
 import ui
 import helpers
@@ -25,7 +25,8 @@ class MainWindowController(Controller):
     def __init__(self, app):
         super(MainWindowController, self).__init__(app)
         self.ui = ui.MainWindow(self)
-        self.report_repository = repositories.ReportRepository(self.app)
+        self.model = models.ReportModel(self.app)
+        self.childpid = None
 
         self.showUi()
         self.onReportDateChange()
@@ -33,13 +34,18 @@ class MainWindowController(Controller):
     def onReportDateChange(self):
         calendar = self.ui.ReportCalendarWidget
         calendar_date = calendar.selectedDate().toPyDate()
-        report = self.report_repository.findByDate(calendar_date)
+        report = self.model.findByDate(calendar_date)
 
         if len(report) == 0:
-            self.report_repository.create(date=calendar_date)
-            report = self.report_repository.findByDate(calendar_date)
+            self.model.create(date=calendar_date)
+            report = self.model.findByDate(calendar_date)
 
         report = report[0]
         self.report = report
+
         helper = helpers.MainWindowHelper(self.ui, self.report)
         helper.refreshUi()
+
+    def onReportTextChange(self):
+        content = self.ui.getReportText()
+        self.model.update(self.report['id'], content=content)
