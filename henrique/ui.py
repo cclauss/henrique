@@ -11,4 +11,4 @@ class BaseUi(object):
 class MainWindow(Ui_Henrique, BaseUi):
 
     def bindEvents(self):
-        pass
+        self.ReportCalendarWidget.selectionChanged.connect(self.controller.onReportDateChange)
