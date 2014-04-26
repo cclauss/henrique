@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Settings</class>
+ <widget class="QWidget" name="Settings">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>398</width>
+    <height>285</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>30</y>
+     <width>311</width>
+     <height>227</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="MainLayout">
+    <item>
+     <widget class="QGroupBox" name="SMTPGroupBox">
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+      <property name="title">
+       <string>SMTP Server</string>
+      </property>
+      <layout class="QFormLayout" name="formLayout">
+       <property name="fieldGrowthPolicy">
+        <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+       </property>
+       <property name="topMargin">
+        <number>15</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QLabel" name="AddressLabel">
+         <property name="text">
+          <string>Address</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="AddressLineEdit"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="PortLabel">
+         <property name="text">
+          <string>Port</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="PortLineEdit"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="UsernameLabel">
+         <property name="text">
+          <string>Username</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="UsernameLineEdit"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="PasswordLabel">
+         <property name="text">
+          <string>Password</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="PasswordLineEdit"/>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="SSLLabel">
+         <property name="text">
+          <string>SSL/TLS</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="SSLLineEdit"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignRight">
+     <widget class="QPushButton" name="SaveButton">
+      <property name="text">
+       <string>Save</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <zorder>SSLLabel</zorder>
+  <zorder>UsernameLineEdit</zorder>
+  <zorder>PortLineEdit</zorder>
+  <zorder>UsernameLabel</zorder>
+  <zorder>PortLabel</zorder>
+  <zorder>AddressLabel</zorder>
+  <zorder>AddressLineEdit</zorder>
+  <zorder>SSLLineEdit</zorder>
+  <zorder>PasswordLabel</zorder>
+  <zorder>PasswordLineEdit</zorder>
+  <zorder>pushButton</zorder>
+  <zorder>pushButton_2</zorder>
+  <zorder>SaveButton</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
