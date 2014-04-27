@@ -16,19 +16,26 @@ class BaseUi(object):
         element = self.getLineEditElement(attribute)
         return str(element.toPlainText())
 
+    def getLineEditValues(self, keys):
+        value_dict = {}
+        for key in keys:
+            value_dict[key] = self.getLineEditValue(key)
+
+        return value_dict
+
     def setLineEditValues(self, value_dict):
         for key in value_dict.keys():
             self.setLineEditValue(key, value_dict[key])
 
     def setLineEditValue(self, attribute, value):
-        element = self.getLinEditElement(attribute)
+        element = self.getLineEditElement(attribute)
         value = str(value)
 
         element.setText(value)
 
     def getLineEditElement(self, attribute):
         element_name = "".join(word.capitalize() for word in attribute.split("_")).capitalize()
-        element_name = "{0}LineEdit".format(attribute)
+        element_name = "{0}LineEdit".format(element_name)
 
         if not hasattr(self.ui, element_name):
             raise UnexistentUiElementError("The element {0} doesn't exist in this UI".format(element_name))
@@ -59,21 +66,29 @@ class SettingsWindow(BaseUi, QtGui.QDialog):
         self.ui.PasswordLineEdit.setEchoMode(QtGui.QLineEdit.Password)
 
     def bindEvents(self):
-        pass
+        self.ui.SaveButton.clicked.connect(self.controller.onSaveButtonClick)
+        self.ui.CloseButton.clicked.connect(self.controller.onCloseButtonClick)
+
+    def getSMTPSettings(self, keys):
+        has_ssl = False
+
+        if 'ssl' in keys:
+            has_ssl = True
+            keys.remove('ssl')
+
+        values = self.getLineEditValues(keys)
+        values['ssl'] = self.getSSL()
+
+        return values
 
     def setSMTPSettings(self, settings):
-        ssl = settings.pop('ssl', None)
+        if 'ssl' in settings:
+            self.setSSL(settings.pop('ssl'))
 
-        if ssl is not None:
-            self.setSSL(ssl)
-
-        for key in settings.keys():
-            val = settings[key]
-            self.setLineEditValue(key, val)
+        self.setLineEditValues(settings)
 
     def setEmailSettings(self, settings):
         self.setLineEditValues(settings)
-
 
     def setSSL(self, ssl):
         state = QtCore.Qt.Checked if int(ssl) == 1 else QtCore.Qt.Unchecked
