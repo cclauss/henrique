@@ -16,6 +16,10 @@ class BaseUi(object):
         element = self.getLineEditElement(attribute)
         return str(element.toPlainText())
 
+    def setLineEditValues(self, value_dict):
+        for key in value_dict.keys():
+            self.setLineEditValue(key, value_dict[key])
+
     def setLineEditValue(self, attribute, value):
         element = self.getLinEditElement(attribute)
         value = str(value)
@@ -23,6 +27,7 @@ class BaseUi(object):
         element.setText(value)
 
     def getLineEditElement(self, attribute):
+        element_name = "".join(word.capitalize() for word in attribute.split("_")).capitalize()
         element_name = "{0}LineEdit".format(attribute)
 
         if not hasattr(self.ui, element_name):
@@ -55,6 +60,20 @@ class SettingsWindow(BaseUi, QtGui.QDialog):
 
     def bindEvents(self):
         pass
+
+    def setSMTPSettings(self, settings):
+        ssl = settings.pop('ssl', None)
+
+        if ssl is not None:
+            self.setSSL(ssl)
+
+        for key in settings.keys():
+            val = settings[key]
+            self.setLineEditValue(key, val)
+
+    def setEmailSettings(self, settings):
+        self.setLineEditValues(settings)
+
 
     def setSSL(self, ssl):
         state = QtCore.Qt.Checked if int(ssl) == 1 else QtCore.Qt.Unchecked
