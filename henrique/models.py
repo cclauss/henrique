@@ -48,7 +48,15 @@ class Model(object):
 
 class SettingsModel(Model):
 
+    TAG_EMAIL = 'email'
     TAG_SMTP = 'smtp'
+
+    SETTINGS_EMAIL = {
+        'to': 'frogger@pond.com',
+        'from': 'developer@pond.com',
+        'subject': 'My awesome report - %d-%m-%Y'
+    }
+
     SETTINGS_SMTP = {
         'address': '127.0.0.1',
         'port': '25',
@@ -58,22 +66,27 @@ class SettingsModel(Model):
     }
 
 
+    def findEmailSetings(self):
+        return self.findSettingsByTag(self.TAG_EMAIL, self.SETTINGS_EMAIL)
+
     def findSMTPSettings(self):
-        cursor = self.connection.execute("SELECT * FROM setting WHERE tag=?", (self.TAG_SMTP,))
+        return self.findSettingsByTag(self.TAG_SMTP, self.SETTINGS_SMTP)
+
+    def findSettingsByTag(self, tag, default_settings):
+        default_settings = default_settings.copy()
+        cursor = self.connection.execute("SELECT * FROM setting WHERE tag=?", (tag))
         dbsettings = cursor.fetchall()
         cursor.close()
 
         settings = {}
-        validkeys = self.SETTINGS_SMTP.keys()
+        validkeys = default_settings.keys()
 
         for setting in dbsettings:
             if setting['name'] in validkeys:
                 settings[setting['name']] = setting['value']
 
-        finalsettings = self.SETTINGS_SMTP.copy()
-        finalsettings.update(settings)
-
-        return finalsettings
+        default_settings.update(settings)
+        return default_settings
 
     def saveSMTPSettings(self, settings):
         self.connection.execute("DELETE FROM setting WHERE tag=?", (self.TAG_SMTP,))
