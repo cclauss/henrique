@@ -66,7 +66,7 @@ class SettingsModel(Model):
     }
 
 
-    def findEmailSetings(self):
+    def findEmailSettings(self):
         return self.findSettingsByTag(self.TAG_EMAIL, self.SETTINGS_EMAIL)
 
     def findSMTPSettings(self):
@@ -74,7 +74,7 @@ class SettingsModel(Model):
 
     def findSettingsByTag(self, tag, default_settings):
         default_settings = default_settings.copy()
-        cursor = self.connection.execute("SELECT * FROM setting WHERE tag=?", (tag))
+        cursor = self.connection.execute("SELECT * FROM setting WHERE tag=?", (tag,))
         dbsettings = cursor.fetchall()
         cursor.close()
 
@@ -89,9 +89,15 @@ class SettingsModel(Model):
         return default_settings
 
     def saveSMTPSettings(self, settings):
-        self.connection.execute("DELETE FROM setting WHERE tag=?", (self.TAG_SMTP,))
+        self.saveSettingsByTag(settings, self.TAG_SMTP, self.SETTINGS_SMTP)
 
-        finalsettings = self.SETTINGS_SMTP.copy()
+    def saveEmailSettings(self, settings):
+        self.saveSettingsByTag(settings, self.TAG_EMAIL, self.SETTINGS_EMAIL)
+
+    def saveSettingsByTag(self, settings, tag, default_settings):
+        self.connection.execute("DELETE FROM setting WHERE tag=?", (tag,))
+
+        finalsettings = default_settings.copy()
         finalsettings.update(settings)
         keys = finalsettings.keys()
 
@@ -102,7 +108,7 @@ class SettingsModel(Model):
         for key in keys:
             params.append(key)
             params.append(finalsettings[key])
-            params.append(self.TAG_SMTP)
+            params.append(tag)
 
         self.connection.execute(query, params)
         self.connection.commit()
