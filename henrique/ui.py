@@ -14,7 +14,7 @@ class BaseUi(object):
 
     def getLineEditValue(self, attribute):
         element = self.getLineEditElement(attribute)
-        return str(element.toPlainText())
+        return str(element.text())
 
     def getLineEditValues(self, keys):
         value_dict = {}
@@ -86,6 +86,9 @@ class SettingsWindow(BaseUi, QtGui.QDialog):
             self.setSSL(settings.pop('ssl'))
 
         self.setLineEditValues(settings)
+
+    def getEmailSettings(self, keys):
+        return self.getLineEditValues(keys)
 
     def setEmailSettings(self, settings):
         self.setLineEditValues(settings)
