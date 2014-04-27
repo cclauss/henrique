@@ -67,22 +67,15 @@ class SettingsWindowController(Controller):
         self.ui.show()
 
     def loadSettings(self):
-        settings = self.model.findSMTPSettings()
-        self.settings = settings
-        self.ui.setUsername(settings['username'])
-        self.ui.setPassword(settings['password'])
-        self.ui.setAddress(settings['address'])
-        self.ui.setPort(settings['port'])
-        self.ui.setSSL(settings['ssl'])
+        self.smtp_settings  = self.model.findSMTPSettings()
+        self.email_settings = self.model.findEmailSettings()
+        self.ui.setSMTPSettings(self.smtp_settings)
+        self.ui.setEmailSettings(self.email_settings)
 
     def onCloseButtonClick(self):
         self.ui.close()
 
     def onSaveButtonClick(self):
-        self.settings['username'] = self.ui.getUsername()
-        self.settings['password'] = self.ui.getPassword()
-        self.settings['address'] = self.ui.getAddress()
-        self.settings['port'] = self.ui.getPort()
-        self.settings['ssl'] = self.ui.getSSL()
-        self.model.saveSMTPSettings(self.settings)
+        self.model.saveSMTPSettings(self.smtp_settings)
+        self.model.saveEmailSettings(self.email_settings)
         self.ui.close()
