@@ -4,10 +4,31 @@ from PyQt4 import QtGui, QtCore
 from qtdesigner.henrique import Ui_Henrique
 from qtdesigner.settings import Ui_Settings
 
+class UnexistentUiElementError(AttributeError):
+    pass
+
 class BaseUi(object):
 
     def __init__(self, controller):
         self.controller = controller
+
+    def getLineEditValue(self, attribute):
+        element = self.getLineEditElement(attribute)
+        return str(element.toPlainText())
+
+    def setLineEditValue(self, attribute, value):
+        element = self.getLinEditElement(attribute)
+        value = str(value)
+
+        element.setText(value)
+
+    def getLineEditElement(self, attribute):
+        element_name = "{0}LineEdit".format(attribute)
+
+        if not hasattr(self.ui, element_name):
+            raise UnexistentUiElementError("The element {0} doesn't exist in this UI".format(element_name))
+
+        return getattr(self.ui, element_name)
 
 
 class MainWindow(Ui_Henrique, BaseUi):
@@ -34,34 +55,6 @@ class SettingsWindow(BaseUi, QtGui.QDialog):
 
     def bindEvents(self):
         pass
-
-    def setUsername(self, username):
-        username = QtCore.QString(username)
-        self.ui.UsernameLineEdit.setText(username)
-
-    def getUsername(self):
-        return str(self.ui.UsernameLineEdit.text())
-
-    def setPassword(self, password):
-        password = QtCore.QString(password)
-        self.ui.PasswordLineEdit.setText(password)
-
-    def getPassword(self):
-        return str(self.ui.PasswordLineEdit.text())
-
-    def setAddress(self, address):
-        address = QtCore.QString(address)
-        self.ui.AddressLineEdit.setText(address)
-
-    def getAddress(self):
-        return str(self.ui.AddressLineEdit.text())
-
-    def setPort(self, port):
-        port = QtCore.QString(port)
-        self.ui.PortLineEdit.setText(port)
-
-    def getPort(self):
-        return str(self.ui.PortLineEdit.text())
 
     def setSSL(self, ssl):
         state = QtCore.Qt.Checked if int(ssl) == 1 else QtCore.Qt.Unchecked
