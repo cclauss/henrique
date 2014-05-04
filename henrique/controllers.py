@@ -52,7 +52,7 @@ class MainWindowController(Controller):
         self.model.update(self.report['id'], content=content)
 
     def onSettingsActionTriggered(self, checked):
-        SettingsWindowController(self.app, self.ui.CentralWidget)
+        SettingsWindowController(self.app, self.ui.MainWidget)
 
 
 class SettingsWindowController(Controller):
