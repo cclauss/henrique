@@ -81,22 +81,21 @@ class OSActionsFactory(object):
         raise RuntimeError("Unknown operating system {0}".format(os))
 
 class LinuxOSActions(object):
-
-    def logout(self):
+    def lock(self):
         pass
 
     def shutdown(self):
         pass
 
 class WindowsOSActions(object):
-    def logout(self):
+    def lock(self):
         pass
 
     def shutdown(self):
         pass
 
 class MacOSActions(object):
-    def logout(self):
+    def lock(self):
         pass
 
     def shutdown(self):

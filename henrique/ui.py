@@ -51,7 +51,7 @@ class MainWindow(Ui_Henrique, BaseUi):
         self.SettingsAction.triggered.connect(self.controller.onSettingsActionTriggered)
         self.SendButton.clicked.connect(self.controller.onSendButtonClicked)
         self.SendAndShutdownButton.clicked.connect(self.controller.onSendAndShutdownButtonClicked)
-        self.SendAndLogoffButton.clicked.connect(self.controller.onSendAndLogoffButtonClicked)
+        self.SendAndLockButton.clicked.connect(self.controller.onSendAndLockButtonClicked)
 
     def getReportDate(self):
          return self.ReportCalendarWidget.selectedDate().toPyDate()

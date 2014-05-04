@@ -77,10 +77,14 @@ class MainWindowController(Controller):
         helper.refreshUi()
 
     def onSendAndShutdownButtonClicked(self):
-        print "send and shutdown"
+        self.onSendButtonClicked()
+        helper = helpers.OSActionsFactory.make()
+        helper.shutdown()
 
-    def onSendAndLogoffButtonClicked(self):
-        print "send and logoff"
+    def onSendAndLockButtonClicked(self):
+        self.onSendButtonClicked()
+        helper = helpers.OSActionsFactory.make()
+        helper.lock()
 
 
 class SettingsWindowController(Controller):
