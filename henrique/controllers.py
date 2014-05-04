@@ -57,6 +57,15 @@ class MainWindowController(Controller):
     def onSettingsActionTriggered(self, checked):
         SettingsWindowController(self.app, self.ui.MainWidget)
 
+    def onSendButtonClicked(self):
+        print "send button clicked!"
+
+    def onSendAndShutdownButtonClicked(self):
+        print "send and shutdown"
+
+    def onSendAndLogoffButtonClicked(self):
+        print "send and logoff"
+
 
 class SettingsWindowController(Controller):
 

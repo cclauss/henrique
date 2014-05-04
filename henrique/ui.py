@@ -49,6 +49,9 @@ class MainWindow(Ui_Henrique, BaseUi):
         self.ReportCalendarWidget.selectionChanged.connect(self.controller.onReportDateChange)
         self.ReportText.textChanged.connect(self.controller.onReportTextChange)
         self.SettingsAction.triggered.connect(self.controller.onSettingsActionTriggered)
+        self.SendButton.clicked.connect(self.controller.onSendButtonClicked)
+        self.SendAndShutdownButton.clicked.connect(self.controller.onSendAndShutdownButtonClicked)
+        self.SendAndLogoffButton.clicked.connect(self.controller.onSendAndLogoffButtonClicked)
 
     def getReportText(self):
         return str(self.ReportText.toPlainText())
