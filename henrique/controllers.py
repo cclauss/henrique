@@ -60,7 +60,7 @@ class MainWindowController(Controller):
 
     def onReportTextChange(self):
         content = self.ui.getReportText()
-        self.model.update(self.report['id'], content=content)
+        self.model.update(self.report['id'], content=content, status=self.report['status'])
 
     def onSettingsActionTriggered(self, checked):
         SettingsWindowController(self.app, self.ui.MainWidget)
@@ -68,8 +68,9 @@ class MainWindowController(Controller):
     def onSendButtonClicked(self):
         self.makeEmailHelper().sendReport(self.report)
         self.report['status'] = models.ReportModel.STATUS_SENT
-        self.model.update(self.report['id'], self.report['content'], models.ReportModel.STATUS_SENT)
+        self.model.update(self.report['id'], content=self.report['content'], status=models.ReportModel.STATUS_SENT)
 
+        self.model.commit()
         helper = helpers.MainWindowHelper(self.ui, self.report)
         helper.refreshUi()
 

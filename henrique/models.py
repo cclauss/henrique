@@ -119,30 +119,26 @@ class ReportModel(Model):
         query = "SELECT *, strftime('%Y-%m-%d', date) AS report_date FROM report WHERE report_date=(?)"
         cursor = self.connection.execute(query, (date.strftime(self.DATE_FORMAT),))
         reports = cursor.fetchall()
-        cursor.close()
+
         return reports
 
     def findById(self, id):
         cursor = self.connection.execute("SELECT * FROM report WHERE id=?", (id,))
         report = cursor.fetchone()
-        cursor.close()
+
         return report
 
     def create(self, date=None, content='', status=0):
         create_date = datetime.now().strftime(self.DATETIME_FORMAT)
-        cursor = self.connection.cursor()
         date = date if isinstance(date, datetime) else datetime.combine(date, datetime.min.time())
 
         query = "INSERT INTO report(date, create_date, update_date, content, status) VALUES (?, ?, ?, ?, ?)"
-        cursor.execute(query, (date, create_date, create_date, content, status,))
-        cursor.close()
+        cursor = self.connection.execute(query, (date, create_date, create_date, content, status,))
 
         return cursor.lastrowid
 
     def update(self, id, content='', status=0):
         update_date = datetime.now().strftime(self.DATETIME_FORMAT)
-        cursor = self.connection.cursor()
         query = "UPDATE report SET update_date=?, content=?, status=? WHERE id=?"
         params = (update_date, content, status, id,)
-        cursor.execute(query, params)
-        cursor.close()
+        self.connection.execute(query, params)
