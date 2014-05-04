@@ -58,7 +58,7 @@ class SettingsModel(Model):
         'port': '25',
         'username': 'henrique@candyland.com',
         'password': '123456',
-        'ssl': '0'
+        'security': 'plain'
     }
 
 

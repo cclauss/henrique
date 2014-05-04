@@ -76,20 +76,27 @@ class SettingsWindow(BaseUi, QtGui.QDialog):
         self.ui.CloseButton.clicked.connect(self.controller.onCloseButtonClick)
 
     def getSMTPSettings(self, keys):
-        has_ssl = False
-
-        if 'ssl' in keys:
-            has_ssl = True
-            keys.remove('ssl')
-
+        keys.remove('security')
         values = self.getLineEditValues(keys)
-        values['ssl'] = self.getSSL()
+        values['security'] = self.getSecurity()
 
         return values
 
+    def getSecurity(self):
+        security = None
+
+        if self.ui.PlainButton.isChecked():
+            security = 'plain'
+        elif self.ui.SSLButton.isChecked():
+            security = 'ssl'
+        else:
+            security = 'starttls'
+
+        return security
+
     def setSMTPSettings(self, settings):
-        if 'ssl' in settings:
-            self.setSSL(settings.pop('ssl'))
+        if 'security' in settings:
+            self.setSecurity(settings.pop('security'))
 
         self.setLineEditValues(settings)
 
@@ -99,10 +106,10 @@ class SettingsWindow(BaseUi, QtGui.QDialog):
     def setEmailSettings(self, settings):
         self.setLineEditValues(settings)
 
-    def setSSL(self, ssl):
-        state = QtCore.Qt.Checked if int(ssl) == 1 else QtCore.Qt.Unchecked
-        self.ui.SSLCheckBox.setCheckState(state)
-
-    def getSSL(self):
-        state = self.ui.SSLCheckBox.checkState()
-        return 1 if state == QtCore.Qt.Checked else 0
+    def setSecurity(self, security):
+        if security == 'ssl':
+            self.ui.SSLButton.setChecked(True)
+        elif security == 'starttls':
+            self.ui.STARTTLSButton.setChecked(True)
+        else:
+            self.ui.PlainButton.setChecked(True)

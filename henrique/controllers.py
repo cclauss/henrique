@@ -107,7 +107,7 @@ class SettingsWindowController(Controller):
         self.model.saveSMTPSettings(self.ui.getSMTPSettings(smtp_keys))
         self.model.saveEmailSettings(self.ui.getEmailSettings(email_keys))
 
-        if getattr(self, 'email_helper'):
+        if hasattr(self, 'email_helper'):
             del self.email_helper
 
         self.ui.close()
