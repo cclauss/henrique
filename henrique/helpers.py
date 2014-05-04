@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 
+import smtplib
+
 from models import ReportModel
+from email.mime.text import MIMEText
+from datetime import datetime
 
 class MainWindowHelper(object):
 
@@ -32,5 +36,25 @@ class EmailHelper(object):
         self.smtp_settings = smtp_settings
         self.email_settings = email_settings
 
+    def getReportTitle(self, report):
+        date = datetime.strptime(report['date'], ReportModel.DATETIME_FORMAT)
+        return date.strftime(self.email_settings['subject'])
+
+    def makeSMTP(self):
+        classname = 'SMTP_SSL' if self.smtp_settings['ssl'] == 1 else 'SMTP'
+        address = str(self.smtp_settings['address'])
+        port = str(self.smtp_settings['port'])
+        return getattr(smtplib, classname)(address, port)
+
     def sendReport(self, report):
-        print report
+        smtp = self.makeSMTP()
+        message = MIMEText(report['content'], _charset='utf-8')
+        message['From'] = self.email_settings['from']
+        message['Subject'] = self.getReportTitle(report)
+
+        smtp.starttls()
+        smtp.set_debuglevel(True)
+        smtp.login(self.smtp_settings['username'], self.smtp_settings['password'])
+        smtp.sendmail(self.email_settings['from'], self.email_settings['to'], message.as_string())
+        smtp.close()
+
