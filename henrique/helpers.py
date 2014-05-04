@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import smtplib
+import platform
 
 from models import ReportModel
 from email.mime.text import MIMEText
@@ -62,4 +63,42 @@ class EmailHelper(object):
         smtp.login(self.smtp_settings['username'], self.smtp_settings['password'])
         smtp.sendmail(self.email_settings['from'], self.email_settings['to'], message.as_string())
         smtp.close()
+
+class OSActionsFactory(object):
+
+    @staticmethod
+    def make(os=None):
+        if os is None:
+            os = platform.platform()
+
+        if os == 'Linux':
+            return LinuxOSActions()
+        elif os == 'Windows':
+            return WindowsOSActions()
+        elif os == 'Mac':
+            return MacOSActions()
+
+        raise RuntimeError("Unknown operating system {0}".format(os))
+
+class LinuxOSActions(object):
+
+    def logout(self):
+        pass
+
+    def shutdown(self):
+        pass
+
+class WindowsOSActions(object):
+    def logout(self):
+        pass
+
+    def shutdown(self):
+        pass
+
+class MacOSActions(object):
+    def logout(self):
+        pass
+
+    def shutdown(self):
+        pass
 
