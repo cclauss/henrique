@@ -41,10 +41,15 @@ class EmailHelper(object):
         return date.strftime(self.email_settings['subject'])
 
     def makeSMTP(self):
-        classname = 'SMTP_SSL' if self.smtp_settings['ssl'] == 1 else 'SMTP'
+        classname = 'SMTP_SSL' if self.smtp_settings['security'] == 'ssl' else 'SMTP'
         address = str(self.smtp_settings['address'])
         port = str(self.smtp_settings['port'])
-        return getattr(smtplib, classname)(address, port)
+        smtp = getattr(smtplib, classname)(address, port)
+
+        if self.smtp_settings['security'] == 'starttls':
+            smtp.starttls()
+
+        return smtp
 
     def sendReport(self, report):
         smtp = self.makeSMTP()
@@ -52,7 +57,6 @@ class EmailHelper(object):
         message['From'] = self.email_settings['from']
         message['Subject'] = self.getReportTitle(report)
 
-        smtp.starttls()
         smtp.set_debuglevel(True)
         smtp.login(self.smtp_settings['username'], self.smtp_settings['password'])
         smtp.sendmail(self.email_settings['from'], self.email_settings['to'], message.as_string())
