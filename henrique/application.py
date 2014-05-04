@@ -4,6 +4,7 @@ import sys
 import os
 import shutil
 import getopt
+import atexit
 from PyQt4 import QtCore, QtGui
 from controllers import MainWindowController
 
@@ -14,6 +15,9 @@ class Henrique(object):
     def __init__(self, argv):
         self.argv = argv
         self.setupEnvironment()
+
+    def registerCleanupFunction(self):
+        atexit.register(self.controller.onExit)
 
     def setupEnvironment(self):
         argv = self.argv[1:]
@@ -46,5 +50,6 @@ class Henrique(object):
         app = QtGui.QApplication(self.argv)
         main_window = QtGui.QMainWindow()
         self.main_window = main_window
-        controller = MainWindowController(self)
+        self.controller = MainWindowController(self)
+        self.registerCleanupFunction()
         sys.exit(app.exec_())

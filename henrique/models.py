@@ -16,6 +16,9 @@ class Model(object):
     def __init__(self, app):
         self.connect(app)
 
+    def commit(self):
+        self.connection.commit()
+
     @classmethod
     def cursorToDictionary(cls, cursor, row):
         d = {}

@@ -47,6 +47,9 @@ class MainWindowController(Controller):
         helper = helpers.MainWindowHelper(self.ui, self.report)
         helper.refreshUi()
 
+    def onExit(self):
+        self.model.commit()
+
     def onReportTextChange(self):
         content = self.ui.getReportText()
         self.model.update(self.report['id'], content=content)
