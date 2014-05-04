@@ -66,6 +66,8 @@ class MainWindowController(Controller):
         SettingsWindowController(self.app, self.ui.MainWidget)
 
     def onSendButtonClicked(self):
+        # TODO - Add some visual tip of what's going on
+        # TODO - Handle errors...
         self.makeEmailHelper().sendReport(self.report)
         self.report['status'] = models.ReportModel.STATUS_SENT
         self.model.update(self.report['id'], content=self.report['content'], status=models.ReportModel.STATUS_SENT)

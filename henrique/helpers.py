@@ -41,6 +41,7 @@ class EmailHelper(object):
         return date.strftime(self.email_settings['subject'])
 
     def makeSMTP(self):
+        # TODO: Thread/Fork it
         classname = 'SMTP_SSL' if self.smtp_settings['security'] == 'ssl' else 'SMTP'
         address = str(self.smtp_settings['address'])
         port = str(self.smtp_settings['port'])
