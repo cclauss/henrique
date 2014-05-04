@@ -53,6 +53,9 @@ class MainWindow(Ui_Henrique, BaseUi):
         self.SendAndShutdownButton.clicked.connect(self.controller.onSendAndShutdownButtonClicked)
         self.SendAndLogoffButton.clicked.connect(self.controller.onSendAndLogoffButtonClicked)
 
+    def getReportDate(self):
+         return self.ReportCalendarWidget.selectedDate().toPyDate()
+
     def getReportText(self):
         return str(self.ReportText.toPlainText())
 

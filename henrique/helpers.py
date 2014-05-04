@@ -31,3 +31,6 @@ class EmailHelper(object):
     def __init__(self, smtp_settings, email_settings):
         self.smtp_settings = smtp_settings
         self.email_settings = email_settings
+
+    def sendReport(self, report):
+        print report

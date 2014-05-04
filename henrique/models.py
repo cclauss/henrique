@@ -41,13 +41,6 @@ class Model(object):
             Model.connection = sqlite3.connect(app.dbfile)
             Model.connection.row_factory = Model.cursorToDictionary
 
-    @staticmethod
-    def flagWrite():
-        Model.WRITES_PENDING += 1
-
-        if (Model.WRITES_PENDING >= Model.MAX_WRITES_PENDING):
-            Model.connection.commit()
-            Model.WRITES_PENDING = 0
 
 class SettingsModel(Model):
 
@@ -144,8 +137,6 @@ class ReportModel(Model):
         cursor.execute(query, (date, create_date, create_date, content, status,))
         cursor.close()
 
-        self.flagWrite()
-
         return cursor.lastrowid
 
     def update(self, id, content='', status=0):
@@ -155,5 +146,3 @@ class ReportModel(Model):
         params = (update_date, content, status, id,)
         cursor.execute(query, params)
         cursor.close()
-
-        self.flagWrite()

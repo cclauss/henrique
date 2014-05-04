@@ -22,14 +22,13 @@ class Controller(object):
             self.app.main_window.update()
 
     def makeEmailHelper(self):
-        if not getattr(self, 'email_helper'):
+        if not hasattr(self, 'email_helper'):
             settings_model = models.SettingsModel(self.app)
             smtp_settings = settings_model.findSMTPSettings()
             email_settings = settings_model.findEmailSettings()
-            self.email_helper = helpers.EmailHelper(smpt_settings, email_settings)
+            self.email_helper = helpers.EmailHelper(smtp_settings, email_settings)
 
         return self.email_helper
-
 
 
 class MainWindowController(Controller):
@@ -43,8 +42,7 @@ class MainWindowController(Controller):
         self.onReportDateChange()
 
     def onReportDateChange(self):
-        calendar = self.ui.ReportCalendarWidget
-        calendar_date = calendar.selectedDate().toPyDate()
+        calendar_date = self.ui.getReportDate()
         report = self.model.findByDate(calendar_date)
 
         if len(report) == 0:
@@ -68,7 +66,12 @@ class MainWindowController(Controller):
         SettingsWindowController(self.app, self.ui.MainWidget)
 
     def onSendButtonClicked(self):
-        print "send button clicked!"
+        self.makeEmailHelper().sendReport(self.report)
+        self.report['status'] = models.ReportModel.STATUS_SENT
+        self.model.update(self.report['id'], self.report['content'], models.ReportModel.STATUS_SENT)
+
+        helper = helpers.MainWindowHelper(self.ui, self.report)
+        helper.refreshUi()
 
     def onSendAndShutdownButtonClicked(self):
         print "send and shutdown"
