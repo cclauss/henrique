@@ -22,3 +22,12 @@ class MainWindowHelper(object):
 
         self.ui.StatusLabel.setText(text)
         self.ui.StatusLabel.setStyleSheet(style)
+
+class InvalidEmailSetings(ValueError):
+    pass
+
+class EmailHelper(object):
+
+    def __init__(self, smtp_settings, email_settings):
+        self.smtp_settings = smtp_settings
+        self.email_settings = email_settings

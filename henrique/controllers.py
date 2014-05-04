@@ -21,6 +21,16 @@ class Controller(object):
         else:
             self.app.main_window.update()
 
+    def makeEmailHelper(self):
+        if not getattr(self, 'email_helper'):
+            settings_model = models.SettingsModel(self.app)
+            smtp_settings = settings_model.findSMTPSettings()
+            email_settings = settings_model.findEmailSettings()
+            self.email_helper = helpers.EmailHelper(smpt_settings, email_settings)
+
+        return self.email_helper
+
+
 
 class MainWindowController(Controller):
 
@@ -93,4 +103,8 @@ class SettingsWindowController(Controller):
 
         self.model.saveSMTPSettings(self.ui.getSMTPSettings(smtp_keys))
         self.model.saveEmailSettings(self.ui.getEmailSettings(email_keys))
+
+        if getattr(self, 'email_helper'):
+            del self.email_helper
+
         self.ui.close()
