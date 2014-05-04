@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>407</width>
-    <height>320</height>
+    <height>301</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -82,15 +82,38 @@
           <item row="4" column="0">
            <widget class="QLabel" name="SSLLabel">
             <property name="text">
-             <string>SSL/TLS</string>
+             <string>Security</string>
             </property>
            </widget>
           </item>
           <item row="4" column="1">
-           <widget class="QCheckBox" name="SSLCheckBox">
-            <property name="text">
-             <string>Enabled</string>
-            </property>
+           <widget class="QWidget" name="SecurityWidget" native="true">
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <property name="margin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QRadioButton" name="PlainButton">
+               <property name="text">
+                <string>Plain</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="STARTTLSButton">
+               <property name="text">
+                <string>STARTTLS</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="SSLButton">
+               <property name="text">
+                <string>SSL/TLS</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>
